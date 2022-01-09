@@ -39,6 +39,12 @@ function MainTabNavigator() {
     <MainTab.Navigator
       screenOptions={{
         headerTitleAlign: 'center',
+        headerStyle: {
+          borderBottomWidth: 1,
+          elevation: 10,
+          backgroundColor: 'lightgray',
+          
+        },
         tabBarIconStyle: {
           display: 'none',
         },
