@@ -9,9 +9,7 @@ const ListenNowScreen = () => {
       style={tw`flex-1 bg-blue-200 items-center 
     justify-center
     `}>
-      <View>
-        <Text>HomeScreen</Text>
-      </View>
+      <Text>HomeScreen</Text>
     </View>
   );
 };

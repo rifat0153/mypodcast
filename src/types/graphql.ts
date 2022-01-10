@@ -8,11 +8,11 @@
 // ====================================================
 
 export interface SearchQuery_search {
-  __typename: "Podcast";
+  __typename: 'Podcast';
   artist: string;
   episodesCount: number;
-  podcastName: string;
   feedUrl: string;
+  podcastName: string;
   thumbnail: string;
   genres: string[];
 }
@@ -24,7 +24,6 @@ export interface SearchQuery {
 export interface SearchQueryVariables {
   term: string;
 }
-
 /* tslint:disable */
 /* eslint-disable */
 // @generated
