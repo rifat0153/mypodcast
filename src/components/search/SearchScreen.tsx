@@ -22,6 +22,8 @@ const SearchScreen = () => {
         </View>
 
         <FlatList
+          keyboardShouldPersistTaps="never"
+          style={tw`bg-red-200`}
           data={[{id: 1}, {id: 2}]}
           renderItem={() => (
             <View style={tw`flex-row my-2 items-center`}>
@@ -40,7 +42,6 @@ const SearchScreen = () => {
             </View>
           )}
           keyExtractor={item => item.id.toString()}
-          style={tw`bg-red-200`}
         />
       </View>
     </KeyboardDismissView>
