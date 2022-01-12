@@ -6,14 +6,16 @@ import {
   Text,
   TextInput,
   FlatList,
-  Image,
   ActivityIndicator,
+  Button,
 } from 'react-native';
 import tw from 'tailwind-react-native-classnames';
 import {SearchQuery, SearchQueryVariables} from '../../types/graphql';
 import searchQuery from './../../graphql/query/searchQuery';
 import {SearchQuery_search} from '../../types/graphql';
 import SearchEmpty from './SearchEmpty';
+import {SearchTile} from './SearchTile';
+import {SearchError} from './SearchError';
 
 const SearchScreen = () => {
   const [term, setTerm] = useState<string>('');
@@ -31,17 +33,12 @@ const SearchScreen = () => {
     }
   };
 
-  if (loading) {
-    return <ActivityIndicator style={tw`flex-1`} size="large" />;
-  }
+  // if (loading) {
+  //   return <ActivityIndicator style={tw`flex-1`} size="large" />;
+  // }
 
   if (error) {
-    return (
-      <View style={tw`flex-1 justify-center items-center`}>
-        <Text>{error.message}</Text>
-        {/* <Text>{error.networkError?.message}</Text> */}
-      </View>
-    );
+    return <SearchError error={error} retryFunction={onSearch} />;
   }
 
   return (
@@ -58,14 +55,14 @@ const SearchScreen = () => {
 
       <FlatList<SearchQuery_search>
         keyboardShouldPersistTaps="never"
-        // style={tw`flex-1 bg-purple-100 `}
+        ListHeaderComponent={
+          <>{loading ?? <ActivityIndicator style={tw`h-28`} size="large" />}</>
+        }
         contentContainerStyle={{flexGrow: 1}}
         centerContent={true}
         data={data?.search ?? []}
         ListEmptyComponent={<SearchEmpty />}
-        renderItem={function ({item}) {
-          return SearchTile(item);
-        }}
+        renderItem={({item}) => <SearchTile item={item} />}
         keyExtractor={item => item.feedUrl.toString()}
       />
     </View>
@@ -73,28 +70,3 @@ const SearchScreen = () => {
 };
 
 export default SearchScreen;
-function SearchTile(item: SearchQuery_search) {
-  return (
-    <View style={tw`flex-row my-2 items-center`}>
-      {item.thumbnail && (
-        <Image
-          style={tw`w-16 h-16
-                    mx-4 bg-blue-100 rounded-xl`}
-          source={{
-            uri: item.thumbnail,
-          }}
-        />
-      )}
-
-      <View style={tw`flex-1`}>
-        <Text style={tw`font-bold text-xl`} numberOfLines={1}>
-          {item.podcastName}
-        </Text>
-        <Text style={tw`text-sm text-gray-500`}>{item.artist}</Text>
-        <Text style={tw`text-sm text-blue-500`}>
-          {item.episodesCount} episodes
-        </Text>
-      </View>
-    </View>
-  );
-}
